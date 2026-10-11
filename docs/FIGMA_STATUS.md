@@ -67,3 +67,15 @@ No se abre high fidelity ni pruebas de usabilidad hasta cerrar este gate.
 - El warning de EGL/WebGPU observado durante el arranque no bloqueó el runtime OpenGL/WebGL validado y no se interviene dentro de este WIP.
 
 Estado del blocker WebGL/GPU: **PASS**.
+
+
+## Canonicalización Brave AMD
+
+- Launcher visible canónico: `brave-amd.desktop`.
+- Launcher anterior: oculto con `NoDisplay=true`.
+- HTTP/HTTPS/text-html: asociados a `brave-amd.desktop`.
+- Wrapper operativo: `~/.local/bin/brave-amd`.
+- Rollback local registrado por el usuario en `~/.local/state/brave-amd-finalize-20261011_104055`.
+- Resultado: `BRAVE_AMD_CANONICALIZED`.
+
+Estado del entorno Figma/Brave: **PASS**.
