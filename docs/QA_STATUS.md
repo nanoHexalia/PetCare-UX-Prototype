@@ -16,8 +16,9 @@
 - Correctivo de microcopy aplicado tras la revisión: se retiró una afirmación de verificación no sustentada en el demo y se sustituyó lenguaje técnico visible al usuario.
 - Gate visual desktop V1: **PASS**.
 - Responsive 768 px: **PASS visual** en las 12 capturas críticas.
-- Responsive 360 px: **FAIL parcial detectado** en agenda y solicitudes por presión de ancho/min-content; correctivo CSS aplicado en `0d0fb84`.
-- Responsive 360 px: pendiente de recaptura y confirmación física.
+- Responsive 360 px: agenda corregida y visualmente estable.
+- Responsive 360 px: solicitudes aún presentaba ocultamiento funcional por tabla horizontal; segundo correctivo aplicado para convertir solicitudes en tarjetas móviles con etiquetas visibles.
+- Responsive 360 px: pendiente únicamente de recaptura final de `solicitudes.html`.
 
 ## QA automatizado estructural
 
@@ -53,7 +54,7 @@ Desktop: **PASS**
 
 Responsive:
 - 768 px: **PASS**
-- 360 px: recaptura pendiente tras correctivo de contención de grid, calendario apilado y ajuste de acciones.
+- 360 px: pendiente únicamente recaptura final de `solicitudes.html` tras conversión de la tabla a tarjetas móviles.
 
 ## Gate de actividad
 
