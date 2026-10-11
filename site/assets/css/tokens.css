@@ -1,0 +1,14 @@
+
+:root{
+  --pc-primary:#0B6B61;--pc-primary-dark:#075E54;--pc-primary-soft:#EAF7F4;
+  --pc-secondary:#15324A;--pc-secondary-soft:#EEF4F8;
+  --pc-accent:#B45309;--pc-accent-soft:#FFF7E8;
+  --pc-success:#237A3B;--pc-success-soft:#ECF8EF;
+  --pc-warning:#9A6700;--pc-warning-soft:#FFF8D8;
+  --pc-danger:#B42318;--pc-danger-soft:#FFF0EE;
+  --pc-info:#175CD3;--pc-info-soft:#EFF8FF;
+  --pc-ink:#111827;--pc-text:#1F2937;--pc-muted:#475569;--pc-border:#CBD5E1;--pc-border-soft:#E2E8F0;--pc-bg:#F8FAFC;--pc-surface:#FFFFFF;
+  --pc-radius-sm:8px;--pc-radius-md:12px;--pc-radius-lg:18px;--pc-radius-pill:999px;
+  --pc-shadow-sm:0 1px 2px rgba(15,23,42,.08);--pc-shadow-md:0 8px 24px rgba(15,23,42,.10);
+  --pc-content-max:1180px;--pc-touch:44px;
+}

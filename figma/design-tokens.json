@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "name": "PetCare UI",
+    "version": "0.1.0",
+    "purpose": "Academic UX/UI prototype"
+  },
+  "color": {
+    "primary": {
+      "600": "#0B6B61",
+      "700": "#075E54",
+      "50": "#EAF7F4"
+    },
+    "secondary": {
+      "800": "#15324A",
+      "50": "#EEF4F8"
+    },
+    "accent": {
+      "700": "#B45309",
+      "50": "#FFF7E8"
+    },
+    "success": {
+      "700": "#237A3B",
+      "50": "#ECF8EF"
+    },
+    "warning": {
+      "700": "#9A6700",
+      "50": "#FFF8D8"
+    },
+    "danger": {
+      "700": "#B42318",
+      "50": "#FFF0EE"
+    },
+    "info": {
+      "700": "#175CD3",
+      "50": "#EFF8FF"
+    },
+    "neutral": {
+      "950": "#111827",
+      "800": "#1F2937",
+      "600": "#475569",
+      "400": "#94A3B8",
+      "300": "#CBD5E1",
+      "200": "#E2E8F0",
+      "100": "#F1F5F9",
+      "50": "#F8FAFC",
+      "0": "#FFFFFF"
+    }
+  },
+  "type": {
+    "family": "Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+    "scale": {
+      "xs": 12,
+      "sm": 14,
+      "md": 16,
+      "lg": 18,
+      "xl": 22,
+      "2xl": 28,
+      "3xl": 36
+    }
+  },
+  "space": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 20,
+    "6": 24,
+    "8": 32,
+    "10": 40,
+    "12": 48,
+    "16": 64
+  },
+  "radius": {
+    "sm": 8,
+    "md": 12,
+    "lg": 18,
+    "pill": 999
+  },
+  "shadow": {
+    "sm": "0 1px 2px rgba(15,23,42,.08)",
+    "md": "0 8px 24px rgba(15,23,42,.10)"
+  },
+  "layout": {
+    "contentMax": 1180,
+    "sidebar": 260,
+    "touchMin": 44,
+    "mobileMin": 360
+  }
+}
