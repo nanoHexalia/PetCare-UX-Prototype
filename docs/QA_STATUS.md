@@ -11,8 +11,10 @@
 - Correctivos semánticos de H1 aplicados y verificados en `index.html`, `registro.html` y `ui-kit.html`.
 - Vistas desktop ya inspeccionadas por el usuario: acceso, registro, dashboards, búsqueda, mascotas, estado, historial, solicitudes, agenda y catálogo.
 - Defecto UIKit de ancho: corregido en `f64d7a0`.
-- UIKit corregido: pendiente de confirmación visual física.
-- Vistas todavía pendientes de evidencia visual física: resultados, servicio, reservar, revisar y solicitud.
+- UIKit corregido: **PASS visual desktop**.
+- Vistas desktop de resultados, servicio, reservar, revisar y solicitud: **PASS visual**.
+- Correctivo de microcopy aplicado tras la revisión: se retiró una afirmación de verificación no sustentada en el demo y se sustituyó lenguaje técnico visible al usuario.
+- Gate visual desktop V1: **PASS**.
 - Responsive físico: pendiente en 768 px y 360 px.
 
 ## QA automatizado estructural
@@ -45,13 +47,7 @@ Este control **no reemplaza** la revisión visual real ni la prueba de usabilida
 
 ## Gate visual pendiente
 
-Desktop:
-1. `resultados.html`
-2. `servicio.html`
-3. `reservar.html`
-4. `revisar.html`
-5. `solicitud.html`
-6. `ui-kit.html` corregido
+Desktop: **PASS**
 
 Responsive:
 - recorrido crítico propietario a 768 px;
