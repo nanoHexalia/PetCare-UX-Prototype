@@ -1,1 +1,129 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UIKit PetCare · PetCare</title><meta name="description" content="Prototipo académico PetCare"><link rel="stylesheet" href="assets/css/tokens.css"><link rel="stylesheet" href="assets/css/app.css"></head><body><a class="skip-link" href="#main">Saltar al contenido</a><div class="shell"><header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html" aria-label="PetCare inicio"><img src="assets/svg/logo.svg" alt="PetCare"></a><nav class="topnav" aria-label="Navegación principal"><a href="index.html">Acceso</a><a href="dashboard-propietario.html">Propietario</a><a href="dashboard-proveedor.html">Proveedor</a><a href="ui-kit.html" aria-current="page">UIKit</a></nav></div></header><main id="main"><div class="container"><div class="app-layout"><section><div class="page-head"><div><div class="eyebrow">Guía de estilos</div><h1>UIKit PetCare</h1><p class="muted">Sistema visual reutilizable para Figma y maquetación HTML/CSS.</p></div></div><div class="grid grid-2"><section class="card"><h2>Colores</h2><div class="grid grid-3"><div style="background:#0B6B61;color:white;padding:18px;border-radius:12px">Primary<br>#0B6B61</div><div style="background:#15324A;color:white;padding:18px;border-radius:12px">Secondary<br>#15324A</div><div style="background:#B45309;color:white;padding:18px;border-radius:12px">Accent<br>#B45309</div></div></section><section class="card"><h2>Tipografía</h2><h1 style="margin:0">Título H1</h1><h2>Encabezado H2</h2><p>Texto base de interfaz accesible y legible.</p><small class="muted">Texto auxiliar</small></section><section class="card"><h2>Botones</h2><div class="btn-row"><button class="btn btn-primary">Primario</button><button class="btn btn-secondary">Secundario</button><button class="btn btn-danger">Destructivo</button></div></section><section class="card"><h2>Estados</h2><div class="btn-row"><span class="badge badge-requested">Solicitada</span><span class="badge badge-confirmed">Confirmada</span><span class="badge badge-rejected">Rechazada</span><span class="badge badge-cancelled">Cancelada</span><span class="badge badge-completed">Completada</span></div></section><section class="card"><h2>Campos</h2><div class="field"><label>Etiqueta</label><input class="input" value="Contenido"></div><div class="field"><label>Selección</label><select class="select"><option>Opción</option></select></div></section><section class="card"><h2>Accesibilidad</h2><p>Contraste AA para controles principales, foco visible, objetivo táctil mínimo 44 px, navegación por teclado, etiquetas persistentes y estados descritos con texto.</p></section></div></section></div></div></main><footer class="footer"><div class="footer-inner"><span>PetCare · Prototipo académico UX/UI</span><span>Sin backend · datos demostrativos</span></div></footer></div><script src="assets/js/app.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>UIKit PetCare · PetCare</title>
+  <meta name="description" content="Guía de estilos del prototipo académico PetCare">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+<div class="shell">
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="PetCare inicio"><img src="assets/svg/logo.svg" alt="PetCare"></a>
+    <nav class="topnav" aria-label="Navegación principal">
+      <a href="index.html">Acceso</a>
+      <a href="dashboard-propietario.html">Propietario</a>
+      <a href="dashboard-proveedor.html">Proveedor</a>
+      <a href="ui-kit.html" aria-current="page">UIKit</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+    <div class="page-head">
+      <div>
+        <div class="eyebrow">Guía de estilos visual · Actividad 2</div>
+        <h1>UIKit PetCare</h1>
+        <p class="muted">Sistema visual reutilizable y coherente entre Figma y la maquetación HTML/CSS.</p>
+      </div>
+    </div>
+
+    <section class="card" style="margin-bottom:20px">
+      <h2>Layouts genéricos</h2>
+      <p class="muted">Patrones estructurales reutilizados en las pantallas principales del MVP.</p>
+      <div class="grid grid-3">
+        <article class="card" style="box-shadow:none">
+          <div class="eyebrow">Layout A</div>
+          <h3>Acceso / registro</h3>
+          <p>Composición de dos columnas: propuesta de valor + formulario focalizado.</p>
+        </article>
+        <article class="card" style="box-shadow:none">
+          <div class="eyebrow">Layout B</div>
+          <h3>Panel por rol</h3>
+          <p>Sidebar contextual + contenido principal con tarjetas, estados y acciones.</p>
+        </article>
+        <article class="card" style="box-shadow:none">
+          <div class="eyebrow">Layout C</div>
+          <h3>Gestión / detalle</h3>
+          <p>Encabezado de tarea + contenido operativo + acción primaria visible.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>Colores</h2>
+        <div class="grid grid-3">
+          <div style="background:#0B6B61;color:white;padding:18px;border-radius:12px"><strong>Primary</strong><br>#0B6B61</div>
+          <div style="background:#15324A;color:white;padding:18px;border-radius:12px"><strong>Secondary</strong><br>#15324A</div>
+          <div style="background:#B45309;color:white;padding:18px;border-radius:12px"><strong>Accent</strong><br>#B45309</div>
+        </div>
+        <p class="muted" style="margin-bottom:0">Los colores semánticos complementan el texto; ningún estado depende solo del color.</p>
+      </section>
+
+      <section class="card">
+        <h2>Tipografía</h2>
+        <h1 style="margin:0">Título H1</h1>
+        <h2>Encabezado H2</h2>
+        <p>Texto base de interfaz accesible y legible.</p>
+        <small class="muted">Texto auxiliar y metadatos.</small>
+      </section>
+
+      <section class="card">
+        <h2>Botones</h2>
+        <div class="btn-row">
+          <button class="btn btn-primary" type="button">Primario</button>
+          <button class="btn btn-secondary" type="button">Secundario</button>
+          <button class="btn btn-danger" type="button">Destructivo</button>
+        </div>
+        <p class="muted">Altura mínima: 44 px. Acción principal diferenciada sin depender exclusivamente del color.</p>
+      </section>
+
+      <section class="card">
+        <h2>Estados</h2>
+        <div class="btn-row">
+          <span class="badge badge-requested">Solicitada</span>
+          <span class="badge badge-confirmed">Confirmada</span>
+          <span class="badge badge-rejected">Rechazada</span>
+          <span class="badge badge-cancelled">Cancelada</span>
+          <span class="badge badge-completed">Completada</span>
+        </div>
+        <p class="muted">Vocabulario canónico compartido con requisitos, UML y ERS.</p>
+      </section>
+
+      <section class="card">
+        <h2>Campos</h2>
+        <div class="field">
+          <label for="kit-input">Etiqueta persistente</label>
+          <input class="input" id="kit-input" value="Contenido">
+        </div>
+        <div class="field">
+          <label for="kit-select">Selección</label>
+          <select class="select" id="kit-select"><option>Opción</option></select>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Accesibilidad</h2>
+        <ul>
+          <li>Contraste objetivo WCAG 2.2 AA en criterios aplicables.</li>
+          <li>Foco visible y navegación por teclado.</li>
+          <li>Controles táctiles de al menos 44 px.</li>
+          <li>Etiquetas persistentes y mensajes comprensibles.</li>
+          <li>Estados descritos con texto además de color.</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="footer"><div class="footer-inner"><span>PetCare · Prototipo académico UX/UI</span><span>Sin backend · datos demostrativos</span></div></footer>
+</div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
