@@ -79,3 +79,27 @@ Estado del blocker WebGL/GPU: **PASS**.
 - Resultado: `BRAVE_AMD_CANONICALIZED`.
 
 Estado del entorno Figma/Brave: **PASS**.
+
+
+## Revisión visual del usuario — 2026-10-11
+
+Evidencia revisada: capturas de las tres páginas Figma visibles en navegador.
+
+### Resultado por superficie
+
+- `00 Cover + UIKit`: **PASS parcial**. La jerarquía visual, paleta, tipografía y componentes base son coherentes; faltan componentes operativos para considerar el UIKit suficientemente completo a nivel académico/profesional: select, textarea, checkbox/radio, navegación, estados de reserva, tabla/tarjeta responsive y patrones de feedback.
+- `01 Wireframes + UI`: **FAIL de cierre**. Los 15 elementos actuales funcionan como inventario/esquema de pantallas, pero no constituyen wireframes suficientemente detallados de cada pantalla: repiten placeholders genéricos y no muestran la composición real de controles, jerarquía, navegación y acciones de cada caso.
+- `02 Prototype + Flow + Usability`: **FAIL de cierre**. El flujo crítico está ordenado pero carece de conectores explícitos/decisiones; el Customer Journey es demasiado sintético y debe incorporar al menos acciones, necesidades/pensamientos, emoción/fricción, touchpoints y oportunidades. La sección V1→V2 se mantiene como plantilla hasta ejecutar pruebas reales.
+
+### Gate
+
+`A2-WIP-02` **permanece ABIERTO**. No se promueve a high fidelity hasta completar:
+1. UIKit operativo mínimo.
+2. Wireframes reales y diferenciados por pantalla.
+3. User Flow con conectores y decisiones.
+4. Customer Journey suficientemente desarrollado.
+5. Revisión visual final = PASS.
+
+### Restricción operativa detectada
+
+Durante la corrección, Figma MCP alcanzó el límite de llamadas del plan Starter. No se abre una vía paralela ni se duplica el archivo. Se mantiene el archivo canónico actual y el correctivo queda pendiente de ejecución sobre esa misma fuente.
