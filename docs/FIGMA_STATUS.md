@@ -54,3 +54,16 @@ La consolidación conserva todos los bloques requeridos por la actividad y no ca
 Estado actual: **CONSTRUIDO / PENDIENTE DE REVISIÓN VISUAL DEL USUARIO**.
 
 No se abre high fidelity ni pruebas de usabilidad hasta cerrar este gate.
+
+
+## Entorno de revisión visual
+
+- Brave normal revalidado con aceleración gráfica sobre la GPU integrada AMD Radeon 780M / Phoenix.
+- Proceso GPU: `--render-node-override=/dev/dri/renderD128`.
+- `GL_VENDOR`: Google Inc. (AMD).
+- `GL_RENDERER`: ANGLE sobre AMD Radeon 780M Graphics (radeonsi phoenix ACO).
+- Figma abrió correctamente con WebGL/WebGL2 acelerados en la ruta AMD.
+- La RTX 4060 queda fuera de la ruta gráfica de Brave para este flujo.
+- El warning de EGL/WebGPU observado durante el arranque no bloqueó el runtime OpenGL/WebGL validado y no se interviene dentro de este WIP.
+
+Estado del blocker WebGL/GPU: **PASS**.
