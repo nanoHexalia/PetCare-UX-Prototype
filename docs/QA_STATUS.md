@@ -15,7 +15,9 @@
 - Vistas desktop de resultados, servicio, reservar, revisar y solicitud: **PASS visual**.
 - Correctivo de microcopy aplicado tras la revisión: se retiró una afirmación de verificación no sustentada en el demo y se sustituyó lenguaje técnico visible al usuario.
 - Gate visual desktop V1: **PASS**.
-- Responsive físico: pendiente en 768 px y 360 px.
+- Responsive 768 px: **PASS visual** en las 12 capturas críticas.
+- Responsive 360 px: **FAIL parcial detectado** en agenda y solicitudes por presión de ancho/min-content; correctivo CSS aplicado en `0d0fb84`.
+- Responsive 360 px: pendiente de recaptura y confirmación física.
 
 ## QA automatizado estructural
 
@@ -50,10 +52,8 @@ Este control **no reemplaza** la revisión visual real ni la prueba de usabilida
 Desktop: **PASS**
 
 Responsive:
-- recorrido crítico propietario a 768 px;
-- recorrido crítico propietario a 360 px;
-- dashboard/solicitudes/agenda proveedor a 768 px;
-- dashboard/solicitudes/agenda proveedor a 360 px.
+- 768 px: **PASS**
+- 360 px: recaptura pendiente tras correctivo de contención de grid, calendario apilado y ajuste de acciones.
 
 ## Gate de actividad
 
