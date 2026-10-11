@@ -6,7 +6,10 @@
 - Ruta local canónica: `/mnt/shadowlight/home/nanohexalia/nanoHexalia_APP/PetCare-UX-Prototype`.
 - Servicio local: `petcare-ux-prototype.service`.
 - URL local: `http://127.0.0.1:4173`.
-- Vistas desktop ya inspeccionadas por el usuario: acceso, registro, dashboards, búsqueda, mascotas, estado, historial, solicitudes, agenda, catálogo y UIKit anterior.
+- QA estructural de las 17 páginas HTML: **PASS**.
+- Ejecución validada: `HTML_PAGES=17`, `HTML_FAILURES=0`, `QA_STATIC=PASS`.
+- Correctivos semánticos de H1 aplicados y verificados en `index.html`, `registro.html` y `ui-kit.html`.
+- Vistas desktop ya inspeccionadas por el usuario: acceso, registro, dashboards, búsqueda, mascotas, estado, historial, solicitudes, agenda y catálogo.
 - Defecto UIKit de ancho: corregido en `f64d7a0`.
 - UIKit corregido: pendiente de confirmación visual física.
 - Vistas todavía pendientes de evidencia visual física: resultados, servicio, reservar, revisar y solicitud.
@@ -35,6 +38,8 @@ El script verifica:
 - foco visible;
 - reduced motion;
 - soporte mínimo declarado de 360 px.
+
+Resultado vigente: **PASS**.
 
 Este control **no reemplaza** la revisión visual real ni la prueba de usabilidad.
 
