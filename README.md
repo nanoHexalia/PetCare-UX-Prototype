@@ -2,19 +2,33 @@
 
 Repositorio preparado para la actividad de diseño visual, prototipado y maquetación inicial de PetCare.
 
+## Convención local de trabajo
+
+En el entorno nanoHexalia, este proyecto debe mantenerse bajo la raíz canónica de aplicaciones:
+
+```text
+/mnt/shadowlight/home/nanohexalia/nanoHexalia_APP/PetCare-UX-Prototype
+```
+
+No se debe mantener la copia de trabajo activa en `Descargas/` ni en otra ubicación paralela. El repositorio GitHub sigue siendo la fuente remota; la carpeta anterior es la ubicación local gobernada para desarrollo, pruebas y revisión.
+
 ## Alcance
 
 Este repositorio **no implementa lógica de negocio ni backend**. Contiene una maquetación navegable HTML/CSS/JS orientada a validar arquitectura de información, UX/UI, accesibilidad y coherencia con el MVP de la Actividad 1.
 
 ## Ejecutar localmente
 
+Desde la ruta canónica:
+
 ```bash
+cd /mnt/shadowlight/home/nanohexalia/nanoHexalia_APP/PetCare-UX-Prototype
 python3 scripts/serve.py
 ```
 
 El puerto por defecto es `4173`, pero puede cambiarse sin editar código:
 
 ```bash
+cd /mnt/shadowlight/home/nanohexalia/nanoHexalia_APP/PetCare-UX-Prototype
 PORT=8080 python3 scripts/serve.py
 ```
 
