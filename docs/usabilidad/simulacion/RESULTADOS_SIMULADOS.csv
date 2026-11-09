@@ -1,0 +1,27 @@
+participante_id,perfil,edad,tarea,resultado_exito,tiempo_mmss,friccion_principal,cita_textual,sus_puntaje,origen
+P-01,Propietario,34,T1 Registro,si,01:20,"Ninguna relevante","'Claro, el registro es como el de cualquier app'",80,SIMULADO
+P-01,Propietario,34,T2 Mascota,si,00:55,"Ninguna relevante","'Los campos justos, me gusta que no pida historia clinica'",80,SIMULADO
+P-01,Propietario,34,T3 Busqueda,si,02:10,"El filtro 'Franja' no es evidente de entrada","'Que quiere decir franja? Ah, la hora del dia'",80,SIMULADO
+P-01,Propietario,34,T4 Reserva,si,03:05,"Duda entre 'Enviar' y 'Confirmar envio'","'Ya envie o falta algo? Ah, este boton es el bueno'",80,SIMULADO
+P-01,Propietario,34,T5 Estado,si,00:45,"Ninguna relevante","'Se ve claro, quedo solicitada'",80,SIMULADO
+P-02,Propietario,52,T1 Registro,si,02:40,"No ve el enlace 'Crear cuenta' al primer vistazo","'Donde me registro? Ah, aqui abajo'",62.5,SIMULADO
+P-02,Propietario,52,T2 Mascota,si,02:15,"Busca boton 'Guardar' arriba de la pagina","'El boton de guardar deberia estar mas arriba'",62.5,SIMULADO
+P-02,Propietario,52,T3 Busqueda,parcial,04:20,"Filtra sin poner categoria primero y confunde resultados","'Me salieron muchas cosas, yo solo queria veterinaria'",62.5,SIMULADO
+P-02,Propietario,52,T4 Reserva,si,04:55,"La pantalla Revisar le genera duda doble","'Por que me hace confirmar dos veces?'",62.5,SIMULADO
+P-02,Propietario,52,T5 Estado,si,01:15,"Ninguna relevante","'El color me ayudo pero lei el texto, esta solicitada'",62.5,SIMULADO
+P-03,Propietario,24,T1 Registro,si,01:05,"Ninguna relevante","'Directo, sin vueltas'",85,SIMULADO
+P-03,Propietario,24,T2 Mascota,si,00:50,"Ninguna relevante","'Rapidisimo'",85,SIMULADO
+P-03,Propietario,24,T3 Busqueda,si,01:45,"Ninguna relevante","'Me gusta que muestre resenas y perfil completo'",85,SIMULADO
+P-03,Propietario,24,T4 Reserva,si,02:30,"Espera que 'Continuar' signifique enviar","'Le di continuar y pense que ya habia reservado'",85,SIMULADO
+P-03,Propietario,24,T5 Estado,si,00:40,"Ninguna relevante","'Perfecto, ahi esta'",85,SIMULADO
+P-04,Propietario,41,T1 Registro,si,01:30,"Duda si elegir rol en el registro o al entrar","'El rol lo escojo ahora o despues?'",65,SIMULADO
+P-04,Propietario,41,T2 Mascota,si,01:10,"Ninguna relevante","'Especie gato aparece, bien'",65,SIMULADO
+P-04,Propietario,41,T3 Busqueda,si,02:25,"No distingue 'Perfil completo' de acreditacion","'Perfil completo quiere decir que esta verificado?'",65,SIMULADO
+P-04,Propietario,41,T4 Reserva,no,05:30,"Se pierde en Revisar y abandona antes de enviar","'No entiendo que me piden confirmar si ya lo revise'",65,SIMULADO
+P-04,Propietario,41,T5 Estado,si,01:20,"Llega a estado desde el panel","'Aqui esta, aunque la mia no la pude enviar'",65,SIMULADO
+P-05,Proveedor,38,T1 Solicitudes,si,02:15,"Ninguna relevante","'Confirmar es el boton verde, se entiende'",77.5,SIMULADO
+P-05,Proveedor,38,T2 Agenda,si,02:50,"La leyenda de colores de la agenda la lee dos veces","'El amarillo es bloqueo? Ah si, la leyenda'",77.5,SIMULADO
+P-05,Proveedor,38,T3 Catalogo,si,01:35,"Busca 'Eliminar' y no lo encuentra (correcto)","'No puedo borrarlo... ah, solo desactivar, tiene sentido'",77.5,SIMULADO
+P-06,Proveedor,29,T1 Solicitudes,si,01:55,"Espera ver los datos de contacto del propietario","'Y el telefono de la persona donde esta?'",72.5,SIMULADO
+P-06,Proveedor,29,T2 Agenda,parcial,03:40,"Confunde bloqueo con desactivar disponibilidad","'Lo desactive o lo bloquee?'",72.5,SIMULADO
+P-06,Proveedor,29,T3 Catalogo,si,01:25,"Ninguna relevante","'Claro, activo o inactivo'",72.5,SIMULADO
