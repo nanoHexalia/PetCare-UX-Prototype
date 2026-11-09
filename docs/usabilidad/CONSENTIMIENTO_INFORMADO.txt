@@ -1,0 +1,14 @@
+CONSENTIMIENTO INFORMADO · PRUEBA DE USABILIDAD PETCare
+Proyecto academico · Corporacion Universitaria Iberoamericana · Análisis y Diseño de Sistemas
+
+Yo, ______________________, identificado(a) con documento ______________:
+
+1. Participo voluntariamente en una sesion de prueba de usabilidad de un prototipo academico llamado PetCare, con duracion estimada de 30 a 40 minutos.
+2. Entiendo que se me pedira realizar tareas en un prototipo web mientras se observan y registran mis acciones, mis tiempos y mis comentarios.
+3. Autorizo el registro de notas de observacion y de mis comentarios en voz alta, con fines exclusivamente academicos.
+4. Mis datos personales se usaran de forma minima (nombre, edad, rol) y no se compartiran fuera del equipo del proyecto. Puedo solicitar que se use un seudonimo.
+5. Puedo retirarme en cualquier momento sin explicacion y sin consecuencia alguna.
+6. Entiendo que el prototipo es academico: no maneja datos reales, no realiza pagos ni reservas reales.
+
+Firma del participante: ______________________  Fecha: ____________
+Firma del moderador: ______________________  Fecha: ____________
