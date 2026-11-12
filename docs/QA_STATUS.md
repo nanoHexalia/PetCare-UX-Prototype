@@ -161,3 +161,14 @@ Origen: evaluación heurística de experto contra los 10 principios de Nielsen, 
 5. Aceptados: errores de registro solo por toast (sev 1, deuda V2), navegación con ambos tableros (decisión consciente de prototipo de dos roles), enlace UIKit (documentación académica).
 
 QA: node --check PASS. Severidad promedio de hallazgos: 2,1 -> 0,6 tras v0.7. QA visual tras republicar Pages: pendiente del usuario (verificar slots ocupados en servicio, login sin radios, "Cerrar sesión" presente, toasts de mascotas).
+
+## Iteración v0.8 (2026-11-12): saludo del dashboard con el nombre de la sesión
+
+Hallazgo del usuario (QA de v0.7): el dashboard del propietario seguía mostrando "Hola, Laura", hardcodeado en el HTML (título de pestaña y saludo); v0.6 había limpiado registro y login pero no este saludo.
+
+Correcciones:
+
+1. dashboard-propietario.html: saludo base neutral ("Hola, propietario") en título y encabezado; sin nombres de persona en el HTML.
+2. app.js: el saludo toma el nombre real de la cuenta con sesión iniciada (d.sesion.nombre); sin sesión muestra el neutro.
+
+QA: node --check PASS. QA visual tras republicar Pages: pendiente del usuario (entrar con cuenta propia y ver "Hola, <su nombre>").

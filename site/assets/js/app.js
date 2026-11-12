@@ -280,6 +280,13 @@
   // ---------- dashboards: próxima reserva y solicitud más próxima con datos reales ----------
   if(page==='dashboard-propietario.html'){
     const d=db();
+    // EH-08 (H6): el saludo estaba hardcodeado ("Hola, Laura") en el HTML;
+    // se toma el nombre de la sesión iniciada, con neutro como respaldo.
+    const nombreSes=(d.sesion&&d.sesion.nombre)||null;
+    if(nombreSes){
+      qsa('main h2').forEach(el=>{ if(el.textContent.trim().startsWith('Hola,')) el.textContent=`Hola, ${nombreSes}`; });
+      if(document.title.includes('Hola,')) document.title=document.title.replace(/Hola,[^·]*·/,'Hola, '+nombreSes+' ·');
+    }
     const art=qsa('main article.card').find(a=>a.textContent.includes('Próxima reserva'));
     if(art){
       const next=[...d.reservas].filter(r=>r.estado==='Solicitada'||r.estado==='Confirmada').sort((a,b)=>(a.fecha+a.hora).localeCompare(b.fecha+b.hora))[0];
