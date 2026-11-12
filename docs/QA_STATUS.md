@@ -112,3 +112,14 @@ Hallazgos del usuario convertidos en mejoras de UX (iteración v0.3, 2026-11-12)
 5. La página del servicio guarda también el servicio elegido (catId) para preseleccionarlo en el formulario de reserva.
 
 QA de sintaxis y lógica de las mejoras: node --check PASS, prueba de persistencia PASS.
+
+## Iteración v0.4 (2026-11-12): valores estáticos vencidos detectados en revisión del usuario
+
+Hallazgo: la página de búsqueda mostraba una fecha demostrativa fija (2026-10-05) y los tableros y páginas de resultados/servicio conservaban fechas estáticas de la maqueta. Correcciones (todas activadas desde app.js, sin tocar HTML):
+
+1. buscar.html: la fecha se preselecciona con el día actual y no permite elegir fechas pasadas (atributo min); el selector de servicio se llena con el catálogo real ("Todos los servicios" + 5 servicios con proveedor).
+2. dashboard-propietario: la tarjeta "Próxima reserva" muestra la próxima reserva real (fecha, hora, servicio y badge de estado); si no hay, mensaje honesto.
+3. dashboard-proveedor: la tarjeta "Solicitud más próxima" muestra la solicitud pendiente real; si no hay, mensaje honesto.
+4. resultados.html y servicio.html: los textos demostrativos "05 oct" se muestran como la fecha de mañana.
+
+QA: node --check PASS, prueba de lógica de semilla/persistencia PASS. QA visual en navegador: pendiente de verificación por el usuario tras republicar Pages.

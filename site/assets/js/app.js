@@ -221,6 +221,57 @@
     }
   }
 
+  // ---------- buscar.html: fecha de hoy y catálogo real (antes valores estáticos vencidos) ----------
+  if(page==='buscar.html'){
+    const d=db(); const hoy=iso(new Date());
+    const dateInp=qs('#date');
+    if(dateInp){ if(!dateInp.value||dateInp.value<hoy) dateInp.value=hoy; dateInp.min=hoy; }
+    const svcSel=qs('#service');
+    if(svcSel) svcSel.innerHTML=`<option value="">Todos los servicios</option>`+d.catalogo.map(c=>`<option value="${h(c.id)}">${h(c.servicio)} · ${h(c.proveedor)}</option>`).join('');
+  }
+
+  // ---------- dashboards: próxima reserva y solicitud más próxima con datos reales ----------
+  if(page==='dashboard-propietario.html'){
+    const d=db();
+    const art=qsa('main article.card').find(a=>a.textContent.includes('Próxima reserva'));
+    if(art){
+      const next=[...d.reservas].filter(r=>r.estado==='Solicitada'||r.estado==='Confirmada').sort((a,b)=>(a.fecha+a.hora).localeCompare(b.fecha+b.hora))[0];
+      const strong=art.querySelector('strong');
+      const line=strong&&strong.nextElementSibling;
+      const bd=art.querySelector('.badge');
+      if(next){
+        if(strong) strong.textContent=fmtFecha(next.fecha);
+        if(line) line.textContent=`${next.hora} · ${next.servicio}`;
+        if(bd){ bd.textContent=next.estado; bd.className=`badge ${badge(next.estado)}`; }
+      }else{
+        if(strong) strong.textContent='Sin reservas activas';
+        if(line) line.textContent='Busca un servicio para crear la primera';
+        if(bd) bd.remove();
+      }
+    }
+  }
+  if(page==='dashboard-proveedor.html'){
+    const d=db();
+    const art=qsa('main article.card').find(a=>a.textContent.includes('Solicitud más próxima'));
+    if(art){
+      const next=d.reservas.filter(r=>r.estado==='Solicitada').sort((a,b)=>(a.fecha+a.hora).localeCompare(b.fecha+b.hora))[0];
+      const strong=art.querySelector('strong'); const p=art.querySelector('p');
+      if(next){
+        if(strong) strong.textContent=`${next.hora} · ${next.servicio}`;
+        if(p&&p.lastChild) p.lastChild.textContent=` ${next.mascota}`;
+      }else{
+        if(strong) strong.textContent='Sin solicitudes pendientes';
+        if(p&&p.lastChild) p.lastChild.textContent=' Revisa la agenda para ver las reservas confirmadas';
+      }
+    }
+  }
+
+  // ---------- resultados/servicio: fechas demostrativas vencidas -> mañana ----------
+  if(page==='resultados.html'||page==='servicio.html'){
+    const t=fmtFecha(addDays(new Date(),1));
+    qsa('main, main *').forEach(el=>{ if(el.children.length===0&&el.textContent.trim()==='05 oct') el.textContent=t; });
+  }
+
   // ---------- honestidad del pie de página: el MVP ya persiste datos ----------
   qsa('footer .footer-inner span').forEach(el=>{ if(el.textContent.includes('Sin backend')) el.textContent='MVP local · datos persistidos en este navegador'; });
 
