@@ -14,7 +14,7 @@ No se debe mantener la copia de trabajo activa en `Descargas/` ni en otra ubicac
 
 ## Alcance
 
-Este repositorio **no implementa lógica de negocio ni backend**. Contiene una maquetación navegable HTML/CSS/JS orientada a validar arquitectura de información, UX/UI, accesibilidad y coherencia con el MVP de la Actividad 1.
+El repositorio contiene una maquetación navegable HTML/CSS/JS y, desde la Actividad 3, un **MVP funcional de la reserva de servicios con persistencia local** (ver `docs/MVP_ACTIVIDAD3.md`): el propietario crea solicitudes y el proveedor las confirma o rechaza, con estados trazables (Solicitada, Confirmada, Rechazada, Cancelada, Completada), guarda BR-06 de conflictos de horario y datos guardados en `localStorage` del navegador (sin backend; al ser un prototipo académico, cada navegador mantiene sus propios datos de demostración).
 
 ## Ejecutar localmente
 
@@ -43,6 +43,7 @@ Abrir `http://127.0.0.1:4173`.
 - `/mascotas.html`, `/historial.html` — gestión de información del propietario.
 - `/dashboard-proveedor.html`, `/solicitudes.html`, `/solicitud.html`, `/agenda.html`, `/catalogo.html` — flujo del proveedor.
 - `/ui-kit.html` — guía de estilos visual implementada.
+- Flujo MVP con datos: `servicio.html` → `reservar.html` → `revisar.html` (crea la solicitud) → `estado.html` / `historial.html`; lado proveedor: `solicitudes.html` → `solicitud.html` (confirma o rechaza) → `agenda.html`.
 
 ## Figma
 

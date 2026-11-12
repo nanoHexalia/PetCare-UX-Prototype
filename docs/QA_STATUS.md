@@ -79,3 +79,16 @@ Resultado final:
 - QA responsive 360 px: **PASS**.
 
 A2-WIP-01 queda cerrado. El siguiente WIP autorizado es Figma/UIKit + componentes + wireframes.
+
+## MVP funcional · Actividad 3 (2026-11-09)
+
+Funcionalidad principal implementada: reserva de servicios con ciclo completo de estados, persistencia en `localStorage` (sin backend).
+
+- Capa de datos: `site/assets/js/app.js` (semilla con 4 mascotas, 5 servicios del catálogo y 3 reservas de ejemplo en los estados Confirmada, Solicitada y Completada).
+- Propietario: selección real de servicio, mascota y horario (reservar), creación de la solicitud (revisar), seguimiento con línea de tiempo y cancelación (estado), historial real.
+- Proveedor: bandeja de solicitudes reales (solicitudes), confirmación o rechazo con guarda BR-06 de conflictos de horario (solicitud), agenda generada desde disponibilidad + reservas confirmadas (agenda).
+- QA estático de sintaxis: `node --check` PASS; prueba de lógica de persistencia y semilla PASS (4 mascotas, 5 servicios, 3 reservas; persistencia verificada).
+- QA visual y de flujo en navegador: PENDIENTE (próxima tanda).
+- Pie de página actualizado por honestidad: "MVP local · datos persistidos en este navegador".
+
+Herramienta de depuración en consola del navegador: `__petcare.reset()` reinicia los datos de demostración.
