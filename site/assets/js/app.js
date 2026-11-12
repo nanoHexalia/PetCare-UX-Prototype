@@ -331,6 +331,44 @@
   // ---------- honestidad del pie de página: el MVP ya persiste datos ----------
   qsa('footer .footer-inner span').forEach(el=>{ if(el.textContent.includes('Sin backend')) el.textContent='MVP local · datos persistidos en este navegador'; });
 
+  // ---------- v0.7 · correcciones de la evaluación heurística (EH) ----------
+  // EH-01 (visibilidad del estado): en servicio.html los horarios ya ocupados
+  // hoy aparecían como disponibles; se marcan y se bloquean igual que en reservar.
+  if(page==='servicio.html'){
+    const dEh=db(); const hoyEh=iso(new Date());
+    qsa('main a[href="reservar.html"]').forEach(a=>{
+      const t=a.textContent.trim(); if(!/^\d{2}:\d{2}$/.test(t)) return;
+      const occ=dEh.reservas.some(r=>r.estado==='Confirmada'&&r.fecha===hoyEh&&r.hora===t);
+      if(occ){
+        a.textContent=`${t} · ocupado`; a.classList.remove('btn-primary'); a.setAttribute('aria-disabled','true');
+        a.addEventListener('click',e=>{e.preventDefault();toast('Ese horario está ocupado; elige otro.');});
+      }
+    });
+  }
+  // EH-02 (reconocimiento antes que recuerdo): los radios de rol del login no
+  // intervenían en la autenticación (el rol viene de la cuenta) y confundían;
+  // se retiran y se explica de dónde viene el rol.
+  if(page==='index.html'){
+    const opts=qsa('#role-form .role-option'); const had=opts.length>0;
+    opts.forEach(el=>el.remove());
+    if(had){
+      const p=document.createElement('p'); p.className='muted'; p.style.fontSize='.85rem';
+      p.textContent='El rol se toma de tu cuenta: lo eliges al crearla.';
+      const rf=qs('#role-form'); const btn=qs('#role-form button');
+      if(rf&&btn) rf.insertBefore(p,btn);
+    }
+  }
+  // EH-03 (control y libertad del usuario): no existía forma de cerrar sesión;
+  // se añade "Cerrar sesión" en la navegación de las páginas de producto.
+  if(page!=='index.html'&&page!=='registro.html'&&page!=='ui-kit.html'){
+    const nav=qs('.topnav');
+    if(nav&&!qs('.topnav a[data-logout]')){
+      const a=document.createElement('a'); a.href='#'; a.textContent='Cerrar sesión'; a.setAttribute('data-logout','1');
+      a.addEventListener('click',e=>{e.preventDefault();const d2=db();d2.sesion=null;save(d2);toast('Sesión cerrada.');setTimeout(()=>location.href='index.html',600);});
+      nav.appendChild(a);
+    }
+  }
+
   // ---------- utilidades expuestas para QA y depuración ----------
   window.__petcare={db,draft,seed,reset:()=>{localStorage.removeItem(DB_KEY);clearDraft();}};
 })();

@@ -22,3 +22,8 @@ Este paquete contiene TODO lo necesario para ejecutar la fase de pruebas de usab
 - El dataset sintetico (PetCare_03_Usabilidad_Sintetica) es evidencia metodologica previa y queda rotulado como tal; NO se presenta como resultado de estas pruebas.
 - Cada mejora del prototipo debe trazarse a un hallazgo real (estructura V1 a V2).
 - Sesion academica: maximo 30 a 40 min por participante; sin incentivos economicos declarables.
+
+## Estado de ejecucion (12-11-2026)
+
+- Prueba de usabilidad con usuarios reales: PENDIENTE. Reclutamiento en curso (1 persona confirmada). Reglas de integridad vigentes: nada se inventa.
+- Evaluacion heuristica de experto (Nielsen): REALIZADA 2026-11-12, ver EVALUACION_HEURISTICA.md. Rotulada como tal; NO se presenta como prueba con usuarios ni se mezcla con resultados de participantes. Genero la iteracion v0.7 del prototipo.

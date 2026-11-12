@@ -149,3 +149,15 @@ Correcciones:
 4. db: migración sin pérdida de datos; nueva tabla usuarios con la cuenta demo como semilla.
 
 QA: node --check PASS; prueba de lógica (migración de usuarios + semilla) PASS. QA visual tras republicar Pages: pendiente del usuario (crear cuenta y entrar con ella).
+
+## Iteración v0.7 (2026-11-12): correcciones de la evaluación heurística
+
+Origen: evaluación heurística de experto contra los 10 principios de Nielsen, documentada en docs/usabilidad/EVALUACION_HEURISTICA.md (rotulada como evaluación heurística; NO como prueba con usuarios). Hallazgo -> decisión -> commit:
+
+1. EH-01 (H1, sev 3): servicio.html mostraba horarios ocupados como disponibles; ahora los slots ocupados de hoy se marcan "· ocupado" y se bloquean.
+2. EH-02 (H6, sev 3): los radios de rol del login no intervenían en la autenticación; retirados con nota "El rol se toma de tu cuenta".
+3. EH-03 (H3, sev 3): no existía cerrar sesión; añadido "Cerrar sesión" en la navegación de producto.
+4. EH-04 (H1, sev 2): toasts de mascotas.html decían que creaba/editaba cuando la función está fuera del alcance; mensajes rotulados como tales.
+5. Aceptados: errores de registro solo por toast (sev 1, deuda V2), navegación con ambos tableros (decisión consciente de prototipo de dos roles), enlace UIKit (documentación académica).
+
+QA: node --check PASS. Severidad promedio de hallazgos: 2,1 -> 0,6 tras v0.7. QA visual tras republicar Pages: pendiente del usuario (verificar slots ocupados en servicio, login sin radios, "Cerrar sesión" presente, toasts de mascotas).
