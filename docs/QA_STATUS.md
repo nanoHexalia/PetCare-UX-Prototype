@@ -136,3 +136,16 @@ Correcciones:
 4. La trazabilidad requisitos-pantallas sigue documentada en docs/TRACEABILITY.md, los wireframes de Figma y el informe, no en la interfaz de usuario.
 
 QA: node --check PASS. Verificación visual tras republicar Pages: pendiente del usuario.
+
+## Iteración v0.6 (2026-11-12): cuentas de usuario reales y portada de producto
+
+Hallazgos del usuario: el registro tenía datos hardcodeados (Laura Ramírez) que no persistían, el login ignoraba las credenciales y la portada mostraba una tarjeta de texto demostrativo.
+
+Correcciones:
+
+1. registro.html: sin datos precargados (placeholders), botón "Crear cuenta"; valida nombre, correo, clave de al menos 6 caracteres y correo no repetido; crea la cuenta en la base local y arranca sesión.
+2. index.html: el login valida credenciales reales contra las cuentas registradas (incluida la demo demo@petcare.local / petcare123); credenciales inválidas se rechazan con aviso; la preselección muestra la ÚLTIMA cuenta creada, no datos fijos de prueba.
+3. index.html: eliminada la tarjeta demostrativa de la portada; el pie de página conserva la aclaración honesta ("MVP local · datos persistidos en este navegador").
+4. db: migración sin pérdida de datos; nueva tabla usuarios con la cuenta demo como semilla.
+
+QA: node --check PASS; prueba de lógica (migración de usuarios + semilla) PASS. QA visual tras republicar Pages: pendiente del usuario (crear cuenta y entrar con ella).

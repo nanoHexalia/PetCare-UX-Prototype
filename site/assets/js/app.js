@@ -9,7 +9,7 @@
     n.textContent=msg;setTimeout(()=>n.remove(),2200);
   }));
   const roleForm=qs('#role-form');
-  if(roleForm){roleForm.addEventListener('submit',e=>{e.preventDefault();const v=new FormData(roleForm).get('role');location.href=v==='proveedor'?'dashboard-proveedor.html':'dashboard-propietario.html'})}
+  // (el login ahora valida credenciales reales contra las cuentas registradas; ver módulo MVP abajo)
 })();
 
 (()=>{ // ================= MVP Actividad 3 · reserva con estados (localStorage) =================
@@ -45,7 +45,10 @@
       ]
     };
   }
-  const db=()=>{ try{ let d=JSON.parse(localStorage.getItem(DB_KEY)); if(!d||d.v!==1){d=seed();localStorage.setItem(DB_KEY,JSON.stringify(d))} return d }catch(e){ const d=seed(); localStorage.setItem(DB_KEY,JSON.stringify(d)); return d } };
+  const db=()=>{ try{ let d=JSON.parse(localStorage.getItem(DB_KEY)); if(!d||d.v!==1){d=seed();localStorage.setItem(DB_KEY,JSON.stringify(d))} 
+    // migración v0.6: cuentas de usuario y sesión (sin borrar datos existentes)
+    if(!d.usuarios){ d.usuarios=[{email:'demo@petcare.local',clave:'petcare123',rol:'propietario',nombre:'Usuario Demo'}]; d.sesion=null; localStorage.setItem(DB_KEY,JSON.stringify(d)); }
+    return d }catch(e){ const d=seed(); localStorage.setItem(DB_KEY,JSON.stringify(d)); return d } };
   const save=d=>localStorage.setItem(DB_KEY,JSON.stringify(d));
   const draft=()=>{ try{return JSON.parse(sessionStorage.getItem(DRAFT_KEY))||null}catch(e){return null} };
   const setDraft=x=>sessionStorage.setItem(DRAFT_KEY,JSON.stringify(x));
@@ -219,6 +222,50 @@
       }
       cal.innerHTML=html;
     }
+  }
+
+  // ---------- index.html: login con validación real de credenciales ----------
+  if(page==='index.html'){
+    const d=db();
+    const em=qs('#email'), pw=qs('#password');
+    // preselección honesta: se muestran los datos de la última cuenta creada;
+    // si solo existe la demo, se muestran los de la demo.
+    const last=[...d.usuarios].reverse().find(u=>u.email!=='demo@petcare.local')||d.usuarios[0];
+    if(em&&last) em.value=last.email;
+    if(pw&&last) pw.value=last.clave;
+    const rf=qs('#role-form');
+    rf&&rf.addEventListener('submit',e=>{
+      e.preventDefault();
+      const u=d.usuarios.find(x=>x.email.toLowerCase()===(em?em.value.trim().toLowerCase():'')&&x.clave===(pw?pw.value:''));
+      if(!u){ toast('Credenciales no válidas; revisa correo y clave, o crea una cuenta.'); return; }
+      d.sesion={email:u.email,rol:u.rol,nombre:u.nombre}; save(d);
+      toast(`Bienvenido, ${u.nombre||u.email}.`);
+      setTimeout(()=>location.href=u.rol==='proveedor'?'dashboard-proveedor.html':'dashboard-propietario.html',600);
+    });
+    const regLink=qs('main a[href="registro.html"], .auth-card a[href="registro.html"]');
+    regLink&&regLink.addEventListener('click',()=>{ /* navega normal a registro */ });
+  }
+
+  // ---------- registro.html: creación de cuenta real ----------
+  if(page==='registro.html'){
+    const btn=qs('#create-account')||qs('main a.btn-primary');
+    btn&&btn.addEventListener('click',e=>{
+      e.preventDefault();
+      const d=db();
+      const nombre=qs('#name')?qs('#name').value.trim():'';
+      const email=qs('#regmail')?qs('#regmail').value.trim():'';
+      const clave=qs('#regpass')?qs('#regpass').value:'';
+      const rolChk=qs('input[name="r"]:checked');
+      const rol=(rolChk&&rolChk.parentElement&&rolChk.parentElement.textContent.toLowerCase().includes('proveedor'))?'proveedor':'propietario';
+      if(!nombre||!email||!clave){ toast('Completa nombre, correo y contraseña.'); return; }
+      if(clave.length<6){ toast('La contraseña debe tener al menos 6 caracteres.'); return; }
+      if(!/^\S+@\S+\.\S+$/.test(email)){ toast('Escribe un correo válido.'); return; }
+      if(d.usuarios.some(u=>u.email.toLowerCase()===email.toLowerCase())){ toast('Ese correo ya tiene cuenta; inicia sesión.'); return; }
+      d.usuarios.push({email,clave,rol,nombre});
+      d.sesion={email,rol,nombre}; save(d);
+      toast('Cuenta creada; bienvenido a PetCare.');
+      setTimeout(()=>location.href=rol==='proveedor'?'dashboard-proveedor.html':'dashboard-propietario.html',800);
+    });
   }
 
   // ---------- buscar.html: fecha de hoy y catálogo real (antes valores estáticos vencidos) ----------
