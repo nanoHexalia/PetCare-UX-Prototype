@@ -189,3 +189,7 @@ Correcciones (hallazgo -> decisión -> commit):
 Limitación documentada: alta/edición de proveedores y su catálogo por parte del propio proveedor queda como deuda V2 (el catálogo es semilla del sistema); las reservas creadas antes de v0.9 se asignan a la cuenta demo por la migración.
 
 QA: node --check PASS. QA visual tras republicar Pages: pendiente del usuario (cuenta propia -> mascotas vacías -> agregar mascota -> reservar con ella -> historial filtrado por mascota).
+
+## Iteración v0.9.1 (2026-11-12): tarjeta "Mis mascotas" del panel con datos reales
+
+Hallazgo del QA de nano: la tarjeta "Mis mascotas" del dashboard del propietario seguía hardcodeada (Luna) aunque v0.9 arregló la página Mis mascotas. Corregido: la tarjeta lista las mascotas reales del usuario en sesión; estado vacío honesto ("Aún no tienes mascotas registradas", botón "Registrar mascota"). Nota de operación: tras cada deploy hay que recargar fuerte (Ctrl+Shift+R) porque el navegador cachea el JS/HTML anterior. QA: node --check PASS; QA visual pendiente de nano tras republicar.

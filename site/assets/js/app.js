@@ -317,6 +317,17 @@
       if(document.title.includes('Hola,')) document.title=document.title.replace(/Hola,[^·]*·/,'Hola, '+nombreSes+' ·');
     }
     const art=qsa('main article.card').find(a=>a.textContent.includes('Próxima reserva'));
+    // EH-09 (H6): la tarjeta "Mis mascotas" del panel estaba hardcodeada (Luna);
+    // muestra las mascotas reales del usuario en sesión, con estado vacío honesto.
+    const petArt=qsa('main article.card').find(a=>a.textContent.includes('Mis mascotas'));
+    if(petArt){
+      const mias=d.mascotas.filter(m=>m.dueno===user());
+      const pTag=petArt.querySelector('p'); const btn=petArt.querySelector('a.btn-secondary');
+      if(pTag&&btn){
+        pTag.innerHTML=mias.length?mias.map(m=>`<strong>${h(m.nombre)}</strong> · ${h(m.tipo)} · ${h(m.edad)}`).join('<br>'):'Aún no tienes mascotas registradas.';
+        btn.textContent=mias.length?'Ver mascotas':'Registrar mascota';
+      }
+    }
     if(art){
       const next=[...d.reservas].filter(r=>r.estado==='Solicitada'||r.estado==='Confirmada').sort((a,b)=>(a.fecha+a.hora).localeCompare(b.fecha+b.hora))[0];
       const strong=art.querySelector('strong');
