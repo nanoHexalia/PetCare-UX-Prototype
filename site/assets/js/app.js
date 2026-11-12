@@ -29,26 +29,38 @@
     const hoy=new Date(), man=addDays(hoy,1), yesterday=addDays(hoy,-1);
     return {
       v:1,
-      mascotas:[{id:'m1',nombre:'Luna',tipo:'Perro',edad:'4 años'},{id:'m2',nombre:'Nala',tipo:'Perro',edad:'2 años'},{id:'m3',nombre:'Rocky',tipo:'Gato',edad:'6 años'},{id:'m4',nombre:'Milo',tipo:'Gato',edad:'3 años'}],
+      mascotas:[
+        {id:'m1',nombre:'Luna',tipo:'Perro',edad:'4 años',dueno:'demo@petcare.local'},
+        {id:'m2',nombre:'Nala',tipo:'Perro',edad:'2 años',dueno:'demo@petcare.local'},
+        {id:'m3',nombre:'Rocky',tipo:'Gato',edad:'6 años',dueno:'demo@petcare.local'},
+        {id:'m4',nombre:'Milo',tipo:'Gato',edad:'3 años',dueno:'demo@petcare.local'}],
       catalogo:[
-        {id:'s1',servicio:'Consulta general',proveedor:'Centro Huellas',precio:65000},
-        {id:'s2',servicio:'Valoración integral',proveedor:'Centro Huellas',precio:55000},
-        {id:'s3',servicio:'Paseo 45 min',proveedor:'Paseos Envigado',precio:40000},
-        {id:'s4',servicio:'Peluquería',proveedor:'Pet Style',precio:70000},
-        {id:'s5',servicio:'Consulta veterinaria',proveedor:'Vet Sabaneta',precio:80000}
+        {id:'s1',servicio:'Consulta general',proveedor:'Centro Huellas',precio:65000,zona:'Medellín',telefono:'(+57) 300 111 1111'},
+        {id:'s2',servicio:'Valoración integral',proveedor:'Centro Huellas',precio:55000,zona:'Medellín',telefono:'(+57) 300 111 1111'},
+        {id:'s3',servicio:'Paseo 45 min',proveedor:'Paseos Envigado',precio:40000,zona:'Envigado',telefono:'(+57) 300 222 2222'},
+        {id:'s4',servicio:'Peluquería',proveedor:'Pet Style',precio:70000,zona:'Medellín',telefono:'(+57) 300 333 3333'},
+        {id:'s5',servicio:'Consulta veterinaria',proveedor:'Vet Sabaneta',precio:80000,zona:'Sabaneta',telefono:'(+57) 300 444 4444'}
       ],
       slots:['09:00','10:30','14:00','16:00'],
       reservas:[
-        {id:'r-seed1',servicio:'Consulta general',proveedor:'Centro Huellas',precio:65000,mascota:'Luna · Perro',nota:'Control de rutina.',fecha:iso(man),hora:'10:30',estado:'Confirmada',creado:nowStamp(),actualizado:nowStamp()},
-        {id:'r-seed2',servicio:'Valoración integral',proveedor:'Centro Huellas',precio:55000,mascota:'Nala · Perro',nota:'Primera valoración.',fecha:iso(man),hora:'14:00',estado:'Solicitada',creado:nowStamp(),actualizado:nowStamp()},
-        {id:'r-seed3',servicio:'Peluquería',proveedor:'Pet Style',precio:70000,mascota:'Rocky · Gato',nota:'',fecha:iso(yesterday),hora:'09:00',estado:'Completada',creado:nowStamp(),actualizado:nowStamp()}
+        {id:'r-seed1',servicio:'Consulta general',proveedor:'Centro Huellas',precio:65000,mascota:'Luna · Perro',mascotaId:'m1',usuario:'demo@petcare.local',nota:'Control de rutina.',fecha:iso(man),hora:'10:30',estado:'Confirmada',creado:nowStamp(),actualizado:nowStamp()},
+        {id:'r-seed2',servicio:'Valoración integral',proveedor:'Centro Huellas',precio:55000,mascota:'Nala · Perro',mascotaId:'m2',usuario:'demo@petcare.local',nota:'Primera valoración.',fecha:iso(man),hora:'14:00',estado:'Solicitada',creado:nowStamp(),actualizado:nowStamp()},
+        {id:'r-seed3',servicio:'Peluquería',proveedor:'Pet Style',precio:70000,mascota:'Rocky · Gato',mascotaId:'m3',usuario:'demo@petcare.local',nota:'',fecha:iso(yesterday),hora:'09:00',estado:'Completada',creado:nowStamp(),actualizado:nowStamp()}
       ]
     };
   }
   const db=()=>{ try{ let d=JSON.parse(localStorage.getItem(DB_KEY)); if(!d||d.v!==1){d=seed();localStorage.setItem(DB_KEY,JSON.stringify(d))} 
     // migración v0.6: cuentas de usuario y sesión (sin borrar datos existentes)
     if(!d.usuarios){ d.usuarios=[{email:'demo@petcare.local',clave:'petcare123',rol:'propietario',nombre:'Usuario Demo'}]; d.sesion=null; localStorage.setItem(DB_KEY,JSON.stringify(d)); }
+    // migración v0.9: modelo relacional (mascota->dueño, reserva->usuario+mascota,
+    // catálogo con datos de contacto del proveedor). Idempotente y sin pérdida.
+    let dirty=false;
+    d.mascotas.forEach(m=>{ if(!m.dueno){ m.dueno='demo@petcare.local'; dirty=true; } });
+    d.reservas.forEach(r=>{ if(!r.usuario){ r.usuario='demo@petcare.local'; dirty=true; } if(!r.mascotaId){ const m=d.mascotas.find(x=>r.mascota&&r.mascota.indexOf(x.nombre)===0); r.mascotaId=m?m.id:''; dirty=true; } });
+    d.catalogo.forEach(c=>{ if(!c.zona){ c.zona='Medellín'; dirty=true; } if(!c.telefono){ c.telefono='(+57) 300 000 0000'; dirty=true; } });
+    if(dirty) localStorage.setItem(DB_KEY,JSON.stringify(d));
     return d }catch(e){ const d=seed(); localStorage.setItem(DB_KEY,JSON.stringify(d)); return d } };
+  const user=()=>{ const d=db(); return (d.sesion&&d.sesion.email)||'demo@petcare.local'; };
   const save=d=>localStorage.setItem(DB_KEY,JSON.stringify(d));
   const draft=()=>{ try{return JSON.parse(sessionStorage.getItem(DRAFT_KEY))||null}catch(e){return null} };
   const setDraft=x=>sessionStorage.setItem(DRAFT_KEY,JSON.stringify(x));
@@ -74,7 +86,10 @@
   if(page==='reservar.html'){
     const d=db();
     const petSel=qs('#pet'), slotSel=qs('#slot');
-    if(petSel){ petSel.innerHTML=d.mascotas.map(m=>`<option value="${h(m.id)}">${h(m.nombre)} · ${h(m.tipo)} · ${h(m.edad)}</option>`).join(''); }
+    if(petSel){
+      const mias=d.mascotas.filter(m=>m.dueno===user());
+      petSel.innerHTML=mias.length?mias.map(m=>`<option value="${h(m.id)}">${h(m.nombre)} · ${h(m.tipo)} · ${h(m.edad)}</option>`).join(''):'<option value="" disabled selected>Registra una mascota primero en "Mis mascotas"</option>';
+    }
     if(slotSel){
       const days=[0,1,2].map(n=>iso(addDays(new Date(),n)));
       slotSel.innerHTML=days.map(f=>d.slots.map(s=>{
@@ -104,7 +119,7 @@
     const persist=()=>{ const catId=qs('#svc')?qs('#svc').value:null; const cat=d.catalogo.find(c=>c.id===catId)||d.catalogo[0];
       const pet=d.mascotas.find(m=>m.id===(qs('#pet')?qs('#pet').value:null))||d.mascotas[0];
       const [fecha,hora]=(qs('#slot')?qs('#slot').value:'').split(' ');
-      setDraft({catId:cat.id,servicio:cat.servicio,proveedor:cat.proveedor,precio:cat.precio,mascota:`${pet.nombre} · ${pet.tipo}`,fecha,hora:hora||'10:30',nota:qs('#note')?qs('#note').value:''});
+      setDraft({catId:cat.id,servicio:cat.servicio,proveedor:cat.proveedor,precio:cat.precio,mascota:`${pet.nombre} · ${pet.tipo}`,mascotaId:pet.id,fecha,hora:hora||'10:30',nota:qs('#note')?qs('#note').value:''});
     };
     form&&form.addEventListener('change',persist);
     form&&form.addEventListener('submit',e=>{e.preventDefault();persist();});
@@ -126,7 +141,7 @@
       const chk=qs('main input[type="checkbox"]');
       if(chk&&!chk.checked){ e.preventDefault(); toast('Confirma la casilla de revisión antes de enviar.'); return; }
       if(conflict(d2,{id:'new',fecha:dr2.fecha,hora:dr2.hora})){ e.preventDefault(); toast('Ese horario acaba de quedar ocupado; elige otro.'); return; }
-      d2.reservas.push({id:uid(),servicio:dr2.servicio,proveedor:dr2.proveedor,precio:dr2.precio,mascota:dr2.mascota,nota:dr2.nota||'',fecha:dr2.fecha,hora:dr2.hora,estado:'Solicitada',creado:nowStamp(),actualizado:nowStamp()});
+      d2.reservas.push({id:uid(),servicio:dr2.servicio,proveedor:dr2.proveedor,precio:dr2.precio,mascota:dr2.mascota,mascotaId:dr2.mascotaId||'',usuario:user(),nota:dr2.nota||'',fecha:dr2.fecha,hora:dr2.hora,estado:'Solicitada',creado:nowStamp(),actualizado:nowStamp()});
       save(d2); clearDraft(); toast('Solicitud enviada; quedó en estado Solicitada.');
     }));
   }
@@ -136,7 +151,7 @@
     const grid=qs('main .grid.grid-2');
     if(grid){
       const d=db();
-      const list=[...d.reservas].sort((a,b)=>(b.fecha+b.hora).localeCompare(a.fecha+a.hora));
+      const list=[...d.reservas].filter(r=>r.usuario===user()).sort((a,b)=>(b.fecha+b.hora).localeCompare(a.fecha+a.hora));
       const ref=params.get('ref');
       if(!list.length){ grid.innerHTML=`<section class="card"><div class="notice notice-info">Aún no hay solicitudes. <a href="buscar.html">Busca un servicio</a> para crear la primera.</div></section>`; }
       else grid.innerHTML=list.map(r=>`
@@ -164,13 +179,27 @@
     }
   }
 
-  // ---------- historial.html: tabla real de reservas ----------
+  // ---------- historial.html: tabla real de reservas del usuario, filtrable por mascota ----------
   if(page==='historial.html'){
     const tbody=qs('main table tbody');
     if(tbody){
-      const d=db();
-      const list=[...d.reservas].sort((a,b)=>(b.fecha+b.hora).localeCompare(a.fecha+a.hora));
-      tbody.innerHTML=list.length?list.map(r=>`<tr><td data-label="Fecha">${fmtFecha(r.fecha)}</td><td data-label="Servicio">${h(r.servicio)}</td><td data-label="Proveedor">${h(r.proveedor)}</td><td data-label="Mascota">${h(r.mascota)}</td><td data-label="Estado"><span class="badge ${badge(r.estado)}">${h(r.estado)}</span></td></tr>`).join(''):'<tr><td colspan="5">Sin reservas registradas.</td></tr>';
+      const d=db(); const dueno=user();
+      const mias=d.mascotas.filter(m=>m.dueno===dueno);
+      const render=()=>{
+        let list=d.reservas.filter(r=>r.usuario===dueno);
+        const sel=qs('#hpet'); const mid=sel?sel.value:'';
+        if(mid) list=list.filter(r=>r.mascotaId===mid);
+        list=[...list].sort((a,b)=>(b.fecha+b.hora).localeCompare(a.fecha+a.hora));
+        tbody.innerHTML=list.length?list.map(r=>`<tr><td data-label="Fecha">${fmtFecha(r.fecha)}</td><td data-label="Servicio">${h(r.servicio)}</td><td data-label="Proveedor">${h(r.proveedor)}</td><td data-label="Mascota">${h(r.mascota)}</td><td data-label="Estado"><span class="badge ${badge(r.estado)}">${h(r.estado)}</span></td></tr>`).join(''):'<tr><td colspan="5">Sin reservas registradas con este filtro.</td></tr>';
+      };
+      // filtro por mascota: consulta de servicios entregados por usuario y por mascota
+      if(!qs('#hpet')){
+        const tabla=qs('main table'); const field=document.createElement('div'); field.className='field'; field.style.maxWidth='280px';
+        field.innerHTML=`<label for="hpet">Filtrar por mascota</label><select class="select" id="hpet"><option value="">Todas mis mascotas</option>${mias.map(m=>`<option value="${h(m.id)}">${h(m.nombre)}</option>`).join('')}</select>`;
+        tabla&&tabla.parentNode.insertBefore(field,tabla);
+        const sel=qs('#hpet'); sel&&sel.addEventListener('change',render);
+      }
+      render();
     }
   }
 
@@ -338,6 +367,29 @@
   // ---------- honestidad del pie de página: el MVP ya persiste datos ----------
   qsa('footer .footer-inner span').forEach(el=>{ if(el.textContent.includes('Sin backend')) el.textContent='MVP local · datos persistidos en este navegador'; });
 
+  // ---------- mascotas.html: mascotas del usuario en sesión + alta real ----------
+  if(page==='mascotas.html'){
+    const d=db(); const dueno=user();
+    const mias=d.mascotas.filter(m=>m.dueno===dueno);
+    const card=qsa('main section.card').find(c=>c.querySelector('h2')&&c.querySelector('h2').textContent.trim()==='Luna');
+    if(card){
+      card.innerHTML=mias.length?`
+        <h2>Mis mascotas (${mias.length})</h2>
+        ${mias.map(m=>`<div style="border-bottom:1px solid #e2e8f0;padding:.6rem 0"><strong>${h(m.nombre)}</strong> · ${h(m.tipo)} · ${h(m.edad)}</div>`).join('')}`
+        :`<h2>Mis mascotas</h2><div class="notice notice-info">Aún no tienes mascotas registradas. Agrega la primera con el formulario de abajo.</div>`;
+    }
+    const btn=qsa('main button').find(b=>b.textContent.trim()==='Guardar');
+    if(btn){ btn.removeAttribute('data-demo');
+      btn.addEventListener('click',()=>{
+        const nombre=qs('#petname')?qs('#petname').value.trim():'';
+        const especie=qs('#species')?qs('#species').value:'Perro';
+        if(!nombre){ toast('Escribe el nombre de la mascota.'); return; }
+        const d2=db(); d2.mascotas.push({id:uid(),nombre,tipo:especie,edad:'—',dueno:user()}); save(d2);
+        toast('Mascota registrada.'); setTimeout(()=>location.reload(),700);
+      });
+    }
+  }
+
   // ---------- v0.7 · correcciones de la evaluación heurística (EH) ----------
   // EH-01 (visibilidad del estado): en servicio.html los horarios ya ocupados
   // hoy aparecían como disponibles; se marcan y se bloquean igual que en reservar.
@@ -351,6 +403,13 @@
         a.addEventListener('click',e=>{e.preventDefault();toast('Ese horario está ocupado; elige otro.');});
       }
     });
+    // datos del proveedor para contratar: zona y contacto desde el catálogo
+    const provH2=qs('main h2'); const cat=dEh.catalogo.find(c=>provH2&&c.proveedor===provH2.textContent.trim());
+    if(cat&&cat.telefono&&provH2&&!qs('#prov-contact')){
+      const p=document.createElement('p'); p.className='muted'; p.id='prov-contact'; p.style.fontSize='.85rem';
+      p.textContent=`Zona: ${cat.zona} · Contacto: ${cat.telefono}`;
+      provH2.parentNode.insertBefore(p,provH2.nextSibling);
+    }
   }
   // EH-02 (reconocimiento antes que recuerdo): los radios de rol del login no
   // intervenían en la autenticación (el rol viene de la cuenta) y confundían;

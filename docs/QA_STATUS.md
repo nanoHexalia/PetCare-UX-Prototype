@@ -172,3 +172,20 @@ Correcciones:
 2. app.js: el saludo toma el nombre real de la cuenta con sesión iniciada (d.sesion.nombre); sin sesión muestra el neutro.
 
 QA: node --check PASS. QA visual tras republicar Pages: pendiente del usuario (entrar con cuenta propia y ver "Hola, <su nombre>").
+
+## Iteración v0.9 (2026-11-12): modelo relacional (dueño-mascota-usuario-reserva) y consultas
+
+Hallazgo del usuario (preguntas de modelo de datos): ¿dónde se registran proveedores y sus servicios con datos para contratarlos?, ¿dónde se relacionan mascotas con sus dueños?, ¿puede el sistema consultar servicios entregados por usuario y por mascota? El MVP v0.8 tenía las relaciones implícitas (mascotas globales sin dueño, reservas sin usuario ni mascotaId, catálogo sin contacto del proveedor): suficiente para demo, insuficiente como diseño.
+
+Correcciones (hallazgo -> decisión -> commit):
+
+1. Modelo: mascotas ganan `dueno` (email del usuario); reservas ganan `usuario` y `mascotaId`; catálogo gana `zona` y `telefono` por servicio (datos para contratar al proveedor). Migración idempotente sin pérdida: datos previos se asignan a la cuenta demo.
+2. mascotas.html: muestra SOLO las mascotas del usuario en sesión; "Guardar" registra la mascota de verdad, ligada a su dueño (cierra el hueco "fuera del alcance" del MVP).
+3. reservar.html: el selector de mascota solo ofrece las del usuario en sesión; la reserva queda registrada por usuario y mascota.
+4. estado.html: muestra solo las reservas del usuario en sesión.
+5. historial.html: consulta de servicios por usuario (filtro automático) y por mascota (selector "Filtrar por mascota"), con estado de cada servicio entregado.
+6. servicio.html: muestra zona y teléfono del proveedor desde el catálogo (datos necesarios para contratar).
+
+Limitación documentada: alta/edición de proveedores y su catálogo por parte del propio proveedor queda como deuda V2 (el catálogo es semilla del sistema); las reservas creadas antes de v0.9 se asignan a la cuenta demo por la migración.
+
+QA: node --check PASS. QA visual tras republicar Pages: pendiente del usuario (cuenta propia -> mascotas vacías -> agregar mascota -> reservar con ella -> historial filtrado por mascota).
