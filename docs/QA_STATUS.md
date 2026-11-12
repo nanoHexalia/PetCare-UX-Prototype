@@ -193,3 +193,7 @@ QA: node --check PASS. QA visual tras republicar Pages: pendiente del usuario (c
 ## Iteración v0.9.1 (2026-11-12): tarjeta "Mis mascotas" del panel con datos reales
 
 Hallazgo del QA de nano: la tarjeta "Mis mascotas" del dashboard del propietario seguía hardcodeada (Luna) aunque v0.9 arregló la página Mis mascotas. Corregido: la tarjeta lista las mascotas reales del usuario en sesión; estado vacío honesto ("Aún no tienes mascotas registradas", botón "Registrar mascota"). Nota de operación: tras cada deploy hay que recargar fuerte (Ctrl+Shift+R) porque el navegador cachea el JS/HTML anterior. QA: node --check PASS; QA visual pendiente de nano tras republicar.
+
+## Iteración v0.9.2 (2026-11-12): bug real de selector en mascotas.html
+
+Hallazgo del QA de nano: pese a v0.9 y recarga fuerte, la tarjeta estática de Luna seguía visible para cualquier cuenta. Causa raíz (encontrada reproduciendo el DOM publicado): la tarjeta es <article class="card"> pero el selector v0.9 buscaba 'main section.card', que nunca coincidía; la tarjeta estática quedaba intacta siempre. No era caché (lección: verificar DOM real publicado antes de atribuir al navegador). Corrección: selector 'main .card' (cubre article y section). Se auditaron los demás selectores de tarjeta: solicitud.html usa section.card y coincide; los bloques de estado/historial/dashboard usan selectores presentes en sus páginas. QA: node --check PASS; pendiente republicar y QA visual de nano.

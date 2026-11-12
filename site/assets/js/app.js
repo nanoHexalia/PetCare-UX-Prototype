@@ -382,7 +382,7 @@
   if(page==='mascotas.html'){
     const d=db(); const dueno=user();
     const mias=d.mascotas.filter(m=>m.dueno===dueno);
-    const card=qsa('main section.card').find(c=>c.querySelector('h2')&&c.querySelector('h2').textContent.trim()==='Luna');
+    const card=qsa('main .card').find(c=>c.querySelector('h2')&&c.querySelector('h2').textContent.trim()==='Luna');
     if(card){
       card.innerHTML=mias.length?`
         <h2>Mis mascotas (${mias.length})</h2>
