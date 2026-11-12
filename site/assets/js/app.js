@@ -272,6 +272,15 @@
     qsa('main, main *').forEach(el=>{ if(el.children.length===0&&el.textContent.trim()==='05 oct') el.textContent=t; });
   }
 
+  // ---------- pulido de producto: sin anotaciones de diseño en la interfaz ----------
+  // Los códigos de trazabilidad (RF/HU/BR/RNF) y notas de criterio UX son
+  // anotaciones de diseño: se eliminan de las páginas de producto y solo
+  // permanecen en la guía de estilos (ui-kit.html), que es documentación.
+  if(page!=='ui-kit.html'){
+    qsa('.eyebrow').forEach(el=>{ if(/^(RF|HU|BR|RNF|UC)[-\s0-9]/.test(el.textContent.trim())) el.remove(); });
+    qsa('main *, footer *').forEach(el=>{ if(el.children.length===0){ const t=el.textContent.trim(); if(t.startsWith('UX:')||t.startsWith('IxD:')) el.closest('div.notice,p')?el.closest('div.notice,p').remove():el.remove(); } });
+  }
+
   // ---------- honestidad del pie de página: el MVP ya persiste datos ----------
   qsa('footer .footer-inner span').forEach(el=>{ if(el.textContent.includes('Sin backend')) el.textContent='MVP local · datos persistidos en este navegador'; });
 

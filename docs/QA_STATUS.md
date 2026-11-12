@@ -123,3 +123,16 @@ Hallazgo: la página de búsqueda mostraba una fecha demostrativa fija (2026-10-
 4. resultados.html y servicio.html: los textos demostrativos "05 oct" se muestran como la fecha de mañana.
 
 QA: node --check PASS, prueba de lógica de semilla/persistencia PASS. QA visual en navegador: pendiente de verificación por el usuario tras republicar Pages.
+
+## Iteración v0.5 (2026-11-12): pulido de producto, sin anotaciones de diseño en la interfaz
+
+Hallazgo del usuario: las páginas mostraban mensajes de criterio de diseño (p. ej. "UX: filtros esenciales visibles...") y códigos de trazabilidad, propios de la etapa de prototipo, que no deben verse en un producto entrando a operación.
+
+Correcciones:
+
+1. buscar.html: eliminada la nota de criterio UX.
+2. index.html: la notificación "Prototipo demostrativo... no implementa reservas reales" era además deshonesta tras el MVP; ahora dice "Prototipo académico. El flujo de reserva de servicios funciona con persistencia local en este navegador; no implementa autenticación ni pagos reales."
+3. app.js: en todas las páginas de producto se eliminan los ojos de página con códigos RF/HU/BR/RNF y cualquier nota "UX:"/"IxD:"; la guía de estilos (ui-kit.html) los conserva por ser documentación del sistema de diseño.
+4. La trazabilidad requisitos-pantallas sigue documentada en docs/TRACEABILITY.md, los wireframes de Figma y el informe, no en la interfaz de usuario.
+
+QA: node --check PASS. Verificación visual tras republicar Pages: pendiente del usuario.
