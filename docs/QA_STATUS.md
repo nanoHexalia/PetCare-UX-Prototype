@@ -197,3 +197,15 @@ Hallazgo del QA de nano: la tarjeta "Mis mascotas" del dashboard del propietario
 ## Iteración v0.9.2 (2026-11-12): bug real de selector en mascotas.html
 
 Hallazgo del QA de nano: pese a v0.9 y recarga fuerte, la tarjeta estática de Luna seguía visible para cualquier cuenta. Causa raíz (encontrada reproduciendo el DOM publicado): la tarjeta es <article class="card"> pero el selector v0.9 buscaba 'main section.card', que nunca coincidía; la tarjeta estática quedaba intacta siempre. No era caché (lección: verificar DOM real publicado antes de atribuir al navegador). Corrección: selector 'main .card' (cubre article y section). Se auditaron los demás selectores de tarjeta: solicitud.html usa section.card y coincide; los bloques de estado/historial/dashboard usan selectores presentes en sus páginas. QA: node --check PASS; pendiente republicar y QA visual de nano.
+
+## Iteración v0.10 (2026-11-12): rediseño de "Mis mascotas" propuesto por el usuario
+
+Propuesta del usuario (diseño GUI): quitar la tarjeta demo "Mis mascotas" para que "Agregar mascota" use el ancho completo; ampliar el alta con Pariente humano, Correo, Móvil/WhatsApp e Información relevante (cuadro de texto), renombrando "Nombre" a "Nombre de la mascota"; y debajo una tarjeta "Mis mascotas" con tabla de las mascotas registradas, desde la cual se selecciona la mascota sobre la que se agendará el servicio.
+
+Implementado (hallazgo/propuesta -> decisión -> commit):
+
+1. mascotas.html: tarjeta demo eliminada; "Agregar masc" con form-grid y 6 campos (Nombre de la mascota, Especie, Pariente humano, Correo, Móvil/WhatsApp, Información relevante); nueva tarjeta "Mis mascotas" con tabla (Mascota, Especie, Pariente humano, Contacto, Información, Acción).
+2. app.js: pariente humano y correo se preseleccionan con los datos de la sesión; el alta valida nombre y correo, y persiste todos los campos ligados al usuario; la tabla se genera con las mascotas del usuario en sesión y cada fila tiene "Agendar servicio" que lleva a reservar con la mascota preseleccionada (?pet=id).
+3. reservar.html: el selector de mascota acepta la preselección ?pet=id desde la tabla (solo mascotas propias).
+
+QA: node --check PASS. QA visual tras republicar Pages: pendiente del usuario (agregar mascota con todos los campos -> verla en la tabla -> Agendar servicio -> reservar con esa mascota preseleccionada).

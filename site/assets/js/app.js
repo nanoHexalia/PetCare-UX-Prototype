@@ -89,6 +89,9 @@
     if(petSel){
       const mias=d.mascotas.filter(m=>m.dueno===user());
       petSel.innerHTML=mias.length?mias.map(m=>`<option value="${h(m.id)}">${h(m.nombre)} · ${h(m.tipo)} · ${h(m.edad)}</option>`).join(''):'<option value="" disabled selected>Registra una mascota primero en "Mis mascotas"</option>';
+      // selección de la mascota desde la tabla "Mis mascotas" (?pet=id)
+      const pParam=params.get('pet');
+      if(pParam&&mias.some(m=>m.id===pParam)) petSel.value=pParam;
     }
     if(slotSel){
       const days=[0,1,2].map(n=>iso(addDays(new Date(),n)));
@@ -378,27 +381,34 @@
   // ---------- honestidad del pie de página: el MVP ya persiste datos ----------
   qsa('footer .footer-inner span').forEach(el=>{ if(el.textContent.includes('Sin backend')) el.textContent='MVP local · datos persistidos en este navegador'; });
 
-  // ---------- mascotas.html: mascotas del usuario en sesión + alta real ----------
+  // ---------- mascotas.html: alta real con datos del pariente humano + tabla de selección ----------
   if(page==='mascotas.html'){
-    const d=db(); const dueno=user();
+    const d=db(); const dueno=user(); const ses=d.sesion;
+    // preselección del pariente humano con los datos de la sesión
+    const hn=qs('#humanname'), he=qs('#humanemail');
+    if(hn&&ses&&ses.nombre&&!hn.value) hn.value=ses.nombre;
+    if(he&&ses&&ses.email&&!he.value) he.value=ses.email;
     const mias=d.mascotas.filter(m=>m.dueno===dueno);
-    const card=qsa('main .card').find(c=>c.querySelector('h2')&&c.querySelector('h2').textContent.trim()==='Luna');
-    if(card){
-      card.innerHTML=mias.length?`
-        <h2>Mis mascotas (${mias.length})</h2>
-        ${mias.map(m=>`<div style="border-bottom:1px solid #e2e8f0;padding:.6rem 0"><strong>${h(m.nombre)}</strong> · ${h(m.tipo)} · ${h(m.edad)}</div>`).join('')}`
-        :`<h2>Mis mascotas</h2><div class="notice notice-info">Aún no tienes mascotas registradas. Agrega la primera con el formulario de abajo.</div>`;
+    // tabla "Mis mascotas": registro y selección para agendar el servicio
+    const tbody=qs('#pettable tbody');
+    if(tbody){
+      tbody.innerHTML=mias.length?mias.map(m=>`<tr><td data-label="Mascota"><strong>${h(m.nombre)}</strong></td><td data-label="Especie">${h(m.tipo)}</td><td data-label="Pariente humano">${h(m.pariente||'—')}</td><td data-label="Contacto">${h(m.correo||'—')}${m.movil?`<br>${h(m.movil)}`:''}</td><td data-label="Información">${h(m.info||'—')}</td><td data-label="Acción"><a class="btn btn-primary" href="reservar.html?pet=${encodeURIComponent(m.id)}">Agendar servicio</a></td></tr>`).join(''):'<tr><td colspan="6">Sin mascotas registradas. Agrega la primera arriba.</td></tr>';
     }
-    const btn=qsa('main button').find(b=>b.textContent.trim()==='Guardar');
-    if(btn){ btn.removeAttribute('data-demo');
-      btn.addEventListener('click',()=>{
-        const nombre=qs('#petname')?qs('#petname').value.trim():'';
-        const especie=qs('#species')?qs('#species').value:'Perro';
-        if(!nombre){ toast('Escribe el nombre de la mascota.'); return; }
-        const d2=db(); d2.mascotas.push({id:uid(),nombre,tipo:especie,edad:'—',dueno:user()}); save(d2);
-        toast('Mascota registrada.'); setTimeout(()=>location.reload(),700);
-      });
-    }
+    // alta de mascota: registra nombre, especie, pariente humano y contacto
+    const form=qs('#pet-form');
+    form&&form.addEventListener('submit',e=>{
+      e.preventDefault();
+      const nombre=qs('#petname')?qs('#petname').value.trim():'';
+      const tipo=qs('#species')?qs('#species').value:'Perro';
+      const pariente=qs('#humanname')?qs('#humanname').value.trim():'';
+      const correo=qs('#humanemail')?qs('#humanemail').value.trim():'';
+      const movil=qs('#humanphone')?qs('#humanphone').value.trim():'';
+      const info=qs('#petinfo')?qs('#petinfo').value.trim():'';
+      if(!nombre){ toast('Escribe el nombre de la mascota.'); return; }
+      if(correo&&!/^\S+@\S+\.\S+$/.test(correo)){ toast('El correo del pariente humano no es válido.'); return; }
+      const d2=db(); d2.mascotas.push({id:uid(),nombre,tipo,edad:'—',dueno:user(),pariente,correo,movil,info}); save(d2);
+      toast('Mascota registrada.'); setTimeout(()=>location.reload(),700);
+    });
   }
 
   // ---------- v0.7 · correcciones de la evaluación heurística (EH) ----------
