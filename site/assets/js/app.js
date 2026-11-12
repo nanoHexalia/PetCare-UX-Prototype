@@ -63,7 +63,7 @@
       const d=db();
       const cat=d.catalogo.find(c=>svc&&c.servicio===svc.textContent.trim())||d.catalogo[0];
       const hora=/^\d{2}:\d{2}$/.test(a.textContent.trim())?a.textContent.trim():'10:30';
-      setDraft({servicio:cat.servicio,proveedor:prov?prov.textContent.trim():cat.proveedor,precio:cat.precio,hora});
+      setDraft({catId:cat.id,servicio:cat.servicio,proveedor:prov?prov.textContent.trim():cat.proveedor,precio:cat.precio,hora});
     }));
   }
 
@@ -74,8 +74,23 @@
     if(petSel){ petSel.innerHTML=d.mascotas.map(m=>`<option value="${h(m.id)}">${h(m.nombre)} · ${h(m.tipo)} · ${h(m.edad)}</option>`).join(''); }
     if(slotSel){
       const days=[0,1,2].map(n=>iso(addDays(new Date(),n)));
-      slotSel.innerHTML=days.map(f=>d.slots.map(s=>`<option value="${f} ${s}">${fmtFecha(f)} · ${s}</option>`).join('')).join('');
+      slotSel.innerHTML=days.map(f=>d.slots.map(s=>{
+        const occ=d.reservas.some(r=>r.estado==='Confirmada'&&r.fecha===f&&r.hora===s);
+        return `<option value="${f} ${s}"${occ?' disabled':''}>${fmtFecha(f)} · ${s}${occ?' · ocupado':''}</option>`;
+      }).join('')).join('');
+      const dr0=draft(); if(dr0&&dr0.fecha&&dr0.hora) slotSel.value=`${dr0.fecha} ${dr0.hora}`;
     }
+    // Nota sincronizada con la mascota: si la nota está vacía o es una nota
+    // por defecto de otra mascota, se actualiza al cambiar de mascota (evita
+    // que quede información operativa de una mascota aplicada a otra).
+    const NOTAS={Luna:'Luna se estresa con secadores fuertes.'};
+    const notaEl=qs('#note');
+    const syncNota=()=>{ if(!notaEl||!petSel) return; const v=notaEl.value.trim();
+      const pet=d.mascotas.find(m=>m.id===petSel.value)||d.mascotas[0];
+      const def=NOTAS[pet.nombre]||'';
+      if(!v||Object.values(NOTAS).includes(v)) notaEl.value=def; };
+    petSel&&petSel.addEventListener('change',syncNota);
+    syncNota();
     const form=qs('main form');
     if(form){
       const field=document.createElement('div'); field.className='field';
@@ -138,7 +153,10 @@
         </section>`).join('');
       qsa('[data-cancel]').forEach(b=>b.addEventListener('click',()=>{
         const d2=db(); const r=d2.reservas.find(x=>x.id===b.dataset.cancel);
-        if(r){ r.estado='Cancelada'; r.actualizado=nowStamp(); save(d2); toast('Solicitud cancelada.'); setTimeout(()=>location.reload(),700); }
+        if(!r) return;
+        // Prevención de errores en acción destructiva: primer clic arma, segundo confirma.
+        if(b.dataset.armed!=='1'){ b.dataset.armed='1'; const orig=b.textContent; b.textContent='Confirmar cancelación'; setTimeout(()=>{b.dataset.armed='0';b.textContent=orig;},2600); return; }
+        r.estado='Cancelada'; r.actualizado=nowStamp(); save(d2); toast('Solicitud cancelada.'); setTimeout(()=>location.reload(),700);
       }));
     }
   }

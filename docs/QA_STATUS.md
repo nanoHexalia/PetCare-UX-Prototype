@@ -92,3 +92,23 @@ Funcionalidad principal implementada: reserva de servicios con ciclo completo de
 - Pie de página actualizado por honestidad: "MVP local · datos persistidos en este navegador".
 
 Herramienta de depuración en consola del navegador: `__petcare.reset()` reinicia los datos de demostración.
+
+## QA visual del MVP en navegador · 2026-11-12 (realizado por el usuario)
+
+Resultado global: **PASS**. Ejecutado sobre la URL pública con el MVP publicado.
+
+- Fase 0 (arranque y login como propietario): PASS.
+- Fase A (crear reserva: servicio, mascota, horario, revisión, envío): PASS.
+- Fase B (proveedor: bandeja, revisión, confirmación, agenda): PASS.
+- Fase C (guardas: BR-06 por horario duplicado, cancelación, historial): PASS.
+- Fase D (persistencia tras F5/ Ctrl+Shift+R y cierre del navegador; responsive móvil): PASS.
+
+Hallazgos del usuario convertidos en mejoras de UX (iteración v0.3, 2026-11-12):
+
+1. Nota operativa sincronizada con la mascota: si la nota está vacía o es la nota por defecto de otra mascota, se actualiza automáticamente al cambiar de mascota (evita información operativa equivocada).
+2. Horarios ya confirmados se muestran como opción deshabilitada "· ocupado" en el selector de horario (prevención de errores antes del envío, complementa la guarda BR-06 del envío).
+3. Fecha y hora del borrador se preseleccionan al llegar desde la página del servicio; el selector de horario arranca en el día actual.
+4. Cancelación en dos pasos (primer clic arma el botón, segundo confirma): prevención de errores en acción destructiva.
+5. La página del servicio guarda también el servicio elegido (catId) para preseleccionarlo en el formulario de reserva.
+
+QA de sintaxis y lógica de las mejoras: node --check PASS, prueba de persistencia PASS.
